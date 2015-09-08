@@ -1,10 +1,8 @@
 # CRC16 1.0.0
 
-The CRC16 class implements CRC-16 (also known as CRC-16-ANSI or CRC-16-IBM) which is used in propular protocols such as Modbus and USB. It contains a single function `calculate` which computes the CRC16 of the data passed in.
+The CRC16 library implements [CRC-16](https://en.wikipedia.org/wiki/Cyclic_redundancy_check) (also known as CRC-16-ANSI or CRC-16-IBM) which is used in propular protocols such as [Modbus](https://github.com/electricimp/Modbus) and USB. The CRC16 class contains a single static function - `calculate ` - which computes the CRC16 of the data passed in.
 
-*NOTE:* The *CRC16* class only uses `static` methods, and as a result does not to be initialized through a constructor.
-
-**To add this library to your project, add `#require "CRC16.class.nut:1.0.0"`` to the top of your device or agent code.**
+**To add this library to your project, add `#require "CRC16.class.nut:1.0.0"` to the top of your device or agent code.**
 
 You can view the library’s source code on [GitHub](https://github.com/electricimp/CRC16/tree/v1.0.0).
 
@@ -12,10 +10,14 @@ You can view the library’s source code on [GitHub](https://github.com/electric
 
 ### CRC16.calculate(*data, [start, end, initialValue]*)
 
-Data can be a string or blob. You can optionally provide a range using *start* and *end*. If no range is specified then the entire data structure is CRCed. Providing a range is useful if only a portion of you data needs to be CRCed, for example a packet which has headers which are not included in the CRC. You can also provide an optional parameter *initialValue* which can be used for chaining together multiple CRCs calculations.
+The *calculate* method calculates the CRC16 value of *data* (a string or blob).
+
+You can pass optional parameters (*start* and *end*) to specify the range - if no range is specified, the CRC will be computed against the entire data structure.
+
+You may also pass an optional *initialValue*, which can be used for chaining together multiple CRC calculations.
 
 ```squirrel
-# require "CRC16.class.nut:1.0.0"
+#require "CRC16.class.nut:1.0.0"
 
 // Verification Values from:
 // http://www.lammertbies.nl/comm/info/crc-calculation.html
@@ -41,7 +43,6 @@ foreach(pair in tests){
     }else{
         server.error("Complete CRC Failed");
     }
-    
 
     //Compute the CRC from bytes 0-2, then from 2-end using the first part CRC as the initial value
     local firstPart = CRC16.calculate(pair[0], 0, 2);
@@ -58,4 +59,3 @@ foreach(pair in tests){
 # License
 
 The CRC16 class is licensed under [MIT License](https://github.com/electricimp/CRC16/tree/master/LICENSE).
-
